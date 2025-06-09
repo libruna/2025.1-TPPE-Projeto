@@ -19,7 +19,7 @@ O projeto original está disponível neste [repositório](https://gitlab.com/lia
 
 ## Diagrama de classes
 
-<img src="./images/uml.svg">
+<img src="./docs/images/uml.svg">
 <figcaption align="center" >Figura 1 - Diagrama de Classes. Fonte: Bruna Lima </figcaption>
 
 <br>
