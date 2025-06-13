@@ -1,10 +1,14 @@
 services:
   db:
     image: postgres:15.3
+    container_name: database
     env_file:
       - .env
+    networks:
+      - app-network
     ports:
       - 5432:5432
+
   backend:
     build:
       context: smart-manage-api
@@ -13,5 +17,11 @@ services:
       - db
     env_file:
       - .env
+    networks:
+      - app-network
     ports:
       - 8080:8080
+
+networks:
+  app-network:
+    driver: bridge
