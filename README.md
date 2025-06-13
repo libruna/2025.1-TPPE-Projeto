@@ -17,10 +17,17 @@ O projeto original está disponível neste [repositório](https://gitlab.com/lia
 
 <br>
 
-## Diagrama de classes
+## Diagrama de Classes
 
-<img src="./docs/images/uml.svg">
+<img src="./docs/images/diagrama-de-classes.svg">
 <figcaption align="center" >Figura 1 - Diagrama de Classes. Fonte: Bruna Lima </figcaption>
+
+<br>
+
+## Diagrama Físico de Banco de Dados
+
+<img src="./docs/images/diagrama-fisico.svg">
+<figcaption align="center" >Figura 2 - Diagrama Físico. Fonte: Bruna Lima </figcaption>
 
 <br>
 
