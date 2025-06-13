@@ -1,6 +1,6 @@
 package com.smartmanage.api.service;
 
-import com.smartmanage.api.model.dto.response.ClientResponseDTO;
+import com.smartmanage.api.dto.response.ClientResponseDTO;
 
 public interface ClientService {
 
