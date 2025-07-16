@@ -1,34 +1,33 @@
 CREATE TABLE public.user (
-    id UUID PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    document VARCHAR(13) UNIQUE NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP,
-    deleted_at TIMESTAMP
+     id UUID PRIMARY KEY,
+     name VARCHAR(100) NOT NULL,
+     document VARCHAR(13) UNIQUE NOT NULL,
+     email VARCHAR(100) NOT NULL,
+     phone_number VARCHAR(20) NOT NULL,
+     created_at TIMESTAMP NOT NULL,
+     updated_at TIMESTAMP,
+     deleted_at TIMESTAMP
 );
 
 CREATE TABLE public.employee (
-    user_id UUID PRIMARY KEY,
-    employee_id INT UNIQUE NOT NULL,
-    role VARCHAR(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES public.user(id)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
+     id UUID PRIMARY KEY,
+     role VARCHAR(50) NOT NULL,
+     FOREIGN KEY (id) REFERENCES public.user(id)
+         ON UPDATE CASCADE
+         ON DELETE CASCADE
 );
 
 CREATE TABLE public.client (
-    user_id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY,
     associate_member BOOLEAN DEFAULT FALSE,
-    FOREIGN KEY (user_id) REFERENCES public.user(id)
+    FOREIGN KEY (id) REFERENCES public.user(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
 CREATE TABLE public.address (
     id BIGSERIAL PRIMARY KEY,
-    user_id UUID NOT NULL,
+    client_id UUID NOT NULL,
     phone_number VARCHAR(20) NOT NULL,
     zip_code VARCHAR(20) NOT NULL,
     country VARCHAR(50) NOT NULL,
@@ -37,7 +36,7 @@ CREATE TABLE public.address (
     street VARCHAR(100) NOT NULL,
     number INT,
     complement VARCHAR(100),
-    FOREIGN KEY (user_id) REFERENCES public.client(user_id)
+    FOREIGN KEY (client_id) REFERENCES public.client(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -85,10 +84,7 @@ CREATE TABLE public.payment_method (
     name VARCHAR(50) UNIQUE NOT NULL
 );
 
-INSERT INTO public.payment_method (name) VALUES
-    ('CARD'),
-    ('PIX'),
-    ('BOLETO');
+INSERT INTO public.payment_method (name) VALUES ('CARD'), ('PIX'), ('BOLETO');
 
 CREATE TABLE public.payment (
     id UUID PRIMARY KEY,
@@ -100,7 +96,8 @@ CREATE TABLE public.payment (
 
 CREATE TABLE public.order (
     id UUID PRIMARY KEY,
-    cliente_id UUID NOT NULL,
+    client_id UUID NOT NULL,
+    employee_id UUID NOT NULL,
     status_id INT NOT NULL,
     payment_id UUID NOT NULL,
     total_price BIGINT NOT NULL,
@@ -109,7 +106,8 @@ CREATE TABLE public.order (
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
     FOREIGN KEY (status_id) REFERENCES public.order_status(id),
-    FOREIGN KEY (cliente_id) REFERENCES public.client(user_id),
+    FOREIGN KEY (client_id) REFERENCES public.client(id),
+    FOREIGN KEY (employee_id) REFERENCES public.employee(id),
     FOREIGN KEY (payment_id) REFERENCES public.payment(id)
         ON UPDATE CASCADE
 );
@@ -123,7 +121,6 @@ CREATE TABLE public.order_item (
     discount_percentage INT DEFAULT 0,
     FOREIGN KEY (product_id) REFERENCES public.product(id),
     FOREIGN KEY(order_id) REFERENCES public.order(id)
-        ON DELETE CASCADE
 );
 
 CREATE TABLE public.shopping_cart (
@@ -131,12 +128,12 @@ CREATE TABLE public.shopping_cart (
     client_id UUID NOT NULL,
     total_price BIGINT DEFAULT 0,
     discount_percentage INT DEFAULT 0,
-    FOREIGN KEY (client_id) REFERENCES public.client(user_id)
+    FOREIGN KEY (client_id) REFERENCES public.client(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
 
-CREATE TABLE public.order_shopping_cart (
+CREATE TABLE public.shopping_cart_item (
     id UUID PRIMARY KEY,
     shopping_cart_id UUID NOT NULL,
     product_id UUID NOT NULL,
@@ -145,5 +142,4 @@ CREATE TABLE public.order_shopping_cart (
     discount_percentage INT DEFAULT 0,
     FOREIGN KEY (product_id) REFERENCES public.product(id),
     FOREIGN KEY(shopping_cart_id) REFERENCES public.shopping_cart(id)
-        ON DELETE CASCADE
 );
