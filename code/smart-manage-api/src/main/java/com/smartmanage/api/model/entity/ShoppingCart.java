@@ -1,23 +1,27 @@
 package com.smartmanage.api.model.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "shopping_cart")
 public class ShoppingCart {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Long totalPrice;
+    @OneToOne
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
 
-    private Integer discountPercentage;
+    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
+    private Set<ShoppingCartItem> items;
 }

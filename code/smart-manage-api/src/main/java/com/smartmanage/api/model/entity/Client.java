@@ -1,10 +1,12 @@
 package com.smartmanage.api.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "client")
 @EqualsAndHashCode(callSuper = true)
