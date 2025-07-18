@@ -2,7 +2,6 @@ package com.smartmanage.api.service.impl;
 
 import com.smartmanage.api.dto.request.EmployeeRequestDto;
 import com.smartmanage.api.dto.response.EmployeeResponseDto;
-import com.smartmanage.api.exception.BusinessException;
 import com.smartmanage.api.model.entity.Employee;
 import com.smartmanage.api.repository.EmployeeRepository;
 import com.smartmanage.api.repository.PositionRepository;
@@ -12,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -37,7 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto saveEmployee(EmployeeRequestDto employeeRequestDto) {
         employeeRepository.findByDocument(employeeRequestDto.getDocument())
                 .ifPresent(employee -> {
-                    throw new BusinessException("Funcionário já cadastrado.", HttpStatus.CONFLICT);
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Funcionário já cadastrado.");
                 });
 
         Employee employee = mapper.map(employeeRequestDto, Employee.class);
@@ -53,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponseDto getEmployeeById(UUID id) {
         Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Funcionário não encontrado.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Funcionário não encontrado."));
 
         return mapper.map(employee, EmployeeResponseDto.class);
     }

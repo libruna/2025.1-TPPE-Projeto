@@ -6,12 +6,13 @@ import com.smartmanage.api.model.entity.Employee;
 import com.smartmanage.api.repository.EmployeeRepository;
 import com.smartmanage.api.service.AuthService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
         Optional<Employee> employeeOptional = employeeRepository.findByDocument(authRequestDto.getDocument());
 
         if (employeeOptional.isEmpty() || !passwordEncoder.matches(authRequestDto.getPassword(), employeeOptional.get().getPassword())) {
-            throw new BadCredentialsException("CPF ou senha inválidos.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "CPF ou senha inválidos.");
         }
 
         Employee employee = employeeOptional.get();

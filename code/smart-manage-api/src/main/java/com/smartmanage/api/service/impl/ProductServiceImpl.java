@@ -2,7 +2,6 @@ package com.smartmanage.api.service.impl;
 
 import com.smartmanage.api.dto.request.ProductRequestDto;
 import com.smartmanage.api.dto.response.ProductResponseDto;
-import com.smartmanage.api.exception.BusinessException;
 import com.smartmanage.api.model.entity.Category;
 import com.smartmanage.api.model.entity.Product;
 import com.smartmanage.api.repository.CategoryRepository;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 import java.util.UUID;
@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
         Set<Category> categories = categoryRepository.findAllById(productRequestDto.getCategories());
 
         if (categories.size() != productRequestDto.getCategories().size()) {
-            throw new BusinessException("Categoria não encontrada.", HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Categoria não encontrada.");
         }
 
         Product product = mapper.map(productRequestDto, Product.class);
@@ -72,7 +72,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponseDto getProductById(UUID id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Produto não encontrado.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
 
         return mapper.map(product, ProductResponseDto.class);
     }
