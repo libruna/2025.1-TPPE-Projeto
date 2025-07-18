@@ -1,10 +1,20 @@
 package com.smartmanage.api.controller;
 
-import com.smartmanage.api.dto.request.CategoryRequestDTO;
-import com.smartmanage.api.dto.response.CategoryResponseDTO;
+import com.smartmanage.api.dto.request.CategoryRequestDto;
+import com.smartmanage.api.dto.response.CategoryResponseDto;
+import com.smartmanage.api.exception.ErrorResponse;
 import com.smartmanage.api.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +27,17 @@ public class CategoryController {
     public CategoryService categoryService;
 
     @PostMapping()
-    public ResponseEntity<CategoryResponseDTO> saveCategory(@RequestBody CategoryRequestDTO categoryRequestDTO) {
-        return ResponseEntity.created(null).body(this.categoryService.save(categoryRequestDTO));
+    public ResponseEntity<CategoryResponseDto> saveCategory(@RequestBody CategoryRequestDto categoryRequestDTO) {
+        return ResponseEntity.created(null).body(categoryService.saveCategory(categoryRequestDTO));
     }
 
     @GetMapping()
-    public ResponseEntity<List<CategoryResponseDTO>> getCategories() {
-        return ResponseEntity.ok().body(this.categoryService.getCategories());
+    public ResponseEntity<List<CategoryResponseDto>> getCategories() {
+        return ResponseEntity.ok().body(categoryService.getCategories());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDTO> getCategory(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(this.categoryService.getCategoryById(id));
+    public ResponseEntity<CategoryResponseDto> getCategory(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(categoryService.getCategoryById(id));
     }
 }
