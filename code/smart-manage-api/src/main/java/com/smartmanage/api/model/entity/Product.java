@@ -3,6 +3,7 @@ package com.smartmanage.api.model.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class Product {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
@@ -22,7 +23,7 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Long price;
+    private BigDecimal price;
 
     @Column(name = "bar_code")
     private String barCode;

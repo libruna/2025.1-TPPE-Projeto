@@ -1,7 +1,7 @@
 package com.smartmanage.api.service.impl;
 
-import com.smartmanage.api.dto.request.CategoryRequestDTO;
-import com.smartmanage.api.dto.response.CategoryResponseDTO;
+import com.smartmanage.api.dto.request.CategoryRequestDto;
+import com.smartmanage.api.dto.response.CategoryResponseDto;
 import com.smartmanage.api.exception.BusinessException;
 import com.smartmanage.api.model.entity.Category;
 import com.smartmanage.api.repository.CategoryRepository;
@@ -26,31 +26,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDTO save(CategoryRequestDTO categoryRequestDTO) {
-        Optional<Category> categoryOptional = this.categoryRepository.findByName(categoryRequestDTO.getName());
-        if (categoryOptional.isPresent()) {
-            throw new BusinessException("Uma categoria com esse nome já foi registrada.", HttpStatus.CONFLICT);
-        }
+    public CategoryResponseDto saveCategory(CategoryRequestDto categoryRequestDto) {
+        categoryRepository.findByName(categoryRequestDto.getName())
+                .ifPresent(c -> {
+                    throw new BusinessException("Uma categoria com mesmo nome já existe.", HttpStatus.CONFLICT);
+                });
 
-        Category category = this.categoryRepository.save(this.mapper.map(categoryRequestDTO, Category.class));
-
-        return CategoryResponseDTO.builder()
-                .id(category.getId())
+        return CategoryResponseDto.builder()
+                .id(categoryRepository.save(mapper.map(categoryRequestDto, Category.class)).getId())
                 .build();
     }
 
     @Override
-    public List<CategoryResponseDTO> getCategories() {
-        return this.mapper.map(this.categoryRepository.findAll(), new TypeToken<List<CategoryResponseDTO>>() {}.getType());
+    public List<CategoryResponseDto> getCategories() {
+        return mapper.map(categoryRepository.findAll(), new TypeToken<List<CategoryResponseDto>>() {}.getType());
     }
 
     @Override
-    public CategoryResponseDTO getCategoryById(Long id) {
-        Optional<Category> category = this.categoryRepository.findById(id);
-        if (category.isEmpty()) {
-            throw new BusinessException("Categoria não encontrada.", HttpStatus.NOT_FOUND);
-        }
+    public CategoryResponseDto getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Categoria não encontrada.", HttpStatus.NOT_FOUND));
 
-        return this.mapper.map(category.get(), CategoryResponseDTO.class);
+        return mapper.map(category, CategoryResponseDto.class);
     }
 }
