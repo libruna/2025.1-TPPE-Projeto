@@ -1,0 +1,85 @@
+INSERT INTO public.role (name) VALUES
+    ('ADMIN'),
+    ('OPERATOR');
+
+INSERT INTO public.position (name) VALUES
+    ('SALESPERSON'),
+    ('MANAGER');
+
+INSERT INTO public.order_status (name) VALUES
+    ('PAYMENT_PENDING'),
+    ('COMPLETED'),
+    ('CANCELLED');
+
+INSERT INTO public.payment_method (name) VALUES
+    ('CARD'),
+    ('PIX'),
+    ('BOLETO');
+
+INSERT INTO public."user" (id, name, document, email, phone_number, created_at, updated_at, deleted_at) VALUES
+    ('00000000-0000-0000-0000-000000000001', 'Alice Lima', '12345678901', 'alice.lima@smartmanage.com',
+    '5511900000001', '2025-07-18 12:00:00', NULL, NULL),
+    ('00000000-0000-0000-0000-000000000002', 'João Silva Vendas', '98765432100', 'joao.vendas@smartmanage.com',
+    '5511900000002', '2025-07-18 12:05:00', NULL, NULL),
+    ('00000000-0000-0000-0000-000000000003', 'Ana Paula Oliveira', '11122233344', 'ana.oliveira@gmail.com',
+    '5511900000003', '2025-07-18 12:10:00', NULL, NULL),
+    ('00000000-0000-0000-0000-000000000004', 'Eduardo Martins Santos', '55566677788', 'eduardo.santos@gmail.com',
+    '5511900000004', '2025-07-18 12:15:00', NULL, NULL),
+    ('00000000-0000-0000-0000-000000000005', 'Clara Martins Rocha', '99988877766', 'clara.rocha@gmail.com',
+    '5511900000005', '2025-07-18 12:20:00', NULL, NULL);
+
+INSERT INTO public.employee (id, position_id, role_id, password) VALUES
+    ('00000000-0000-0000-0000-000000000001', 1, 1,
+    '$2a$10$w1O0MWS4iEwJYfx7vGV0UO7dBxN0i8H0I0FeY4u3zh0vY4p7mKZ0a'),
+    ('00000000-0000-0000-0000-000000000002', 2, 2,
+    '$2a$10$h9Gm1H9mYQ7q1x9Vq1E0CujBz6hC1UthO3pOq0rj5mQW1Tn0pO3bC');
+
+INSERT INTO public.client (id, associate_member) VALUES
+    ('00000000-0000-0000-0000-000000000003', TRUE),
+    ('00000000-0000-0000-0000-000000000004', FALSE),
+    ('00000000-0000-0000-0000-000000000005', FALSE);
+
+INSERT INTO public.category (id, name, description) VALUES
+    (1, 'Cosméticos', 'Produtos de beleza e cuidados pessoais.'),
+    (2, 'Tecnologia', 'Eletrônicos e acessórios.'),
+    (3, 'Vestuário', 'Roupas e acessórios de moda.');
+
+INSERT INTO public.product (id, name, description, price, bar_code, stock) VALUES
+    ('10000000-0000-0000-0000-000000000001', 'Shampoo Revitalizante', 'Linha premium para cabelos danificados.', 39.90, '789100000001', 150),
+    ('10000000-0000-0000-0000-000000000002', 'Mouse Gamer RGB', 'Mouse com 7 botões programáveis e iluminação.', 199.90, '789100000002', 80),
+    ('10000000-0000-0000-0000-000000000003', 'Camiseta Oversized Rosa', 'Algodão 100%, unissex.', 79.90, '789100000003', 200),
+    ('10000000-0000-0000-0000-000000000004', 'Hidratante Facial Diário', 'Uso diário para pele mista.', 89.50, '789100000004', 120);
+
+INSERT INTO public.product_category (product_id, category_id) VALUES
+    ('10000000-0000-0000-0000-000000000001', 1),
+    ('10000000-0000-0000-0000-000000000004', 1),
+    ('10000000-0000-0000-0000-000000000002', 2),
+    ('10000000-0000-0000-0000-000000000003', 3);
+
+INSERT INTO public.payment (id, payment_method_id, created_at, updated_at) VALUES
+    ('20000000-0000-0000-0000-000000000001', 2, '2025-07-18 13:00:00', NULL),
+    ('20000000-0000-0000-0000-000000000002', 3, '2025-07-18 13:05:00', NULL);
+
+
+INSERT INTO public."order" (id, client_id, employee_id, status_id, payment_id, total_price, discount_percentage, created_at, updated_at, deleted_at) VALUES
+    ('30000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000002',
+    2, '20000000-0000-0000-0000-000000000001', 119.80, 0, '2025-07-18 13:10:00', NULL, NULL),
+
+    ('30000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000001',
+    1, '20000000-0000-0000-0000-000000000002', 199.90, 5, '2025-07-18 13:20:00', NULL, NULL);
+
+
+INSERT INTO public.order_item (id, order_id, product_id, number) VALUES
+    ('40000000-0000-0000-0000-000000000001', '30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000001', 1),
+    ('40000000-0000-0000-0000-000000000002', '30000000-0000-0000-0000-000000000001', '10000000-0000-0000-0000-000000000003', 1),
+    ('40000000-0000-0000-0000-000000000003', '30000000-0000-0000-0000-000000000002', '10000000-0000-0000-0000-000000000002', 1);
+
+INSERT INTO public.shopping_cart (id, client_id) VALUES
+    ('50000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000003'),
+    ('50000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000004'),
+    ('50000000-0000-0000-0000-000000000005', '00000000-0000-0000-0000-000000000005');
+
+INSERT INTO public.shopping_cart_item (id, shopping_cart_id, product_id, number) VALUES
+    ('60000000-0000-0000-0000-000000000001', '50000000-0000-0000-0000-000000000003', '10000000-0000-0000-0000-000000000004', 2),
+    ('60000000-0000-0000-0000-000000000002', '50000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000003', 1),
+    ('60000000-0000-0000-0000-000000000003', '50000000-0000-0000-0000-000000000004', '10000000-0000-0000-0000-000000000002', 1);
