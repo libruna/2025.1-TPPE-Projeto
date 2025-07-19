@@ -39,10 +39,10 @@ INSERT INTO public.client (id, associate_member) VALUES
     ('00000000-0000-0000-0000-000000000004', FALSE),
     ('00000000-0000-0000-0000-000000000005', FALSE);
 
-INSERT INTO public.category (id, name, description) VALUES
-    (1, 'Cosméticos', 'Produtos de beleza e cuidados pessoais.'),
-    (2, 'Tecnologia', 'Eletrônicos e acessórios.'),
-    (3, 'Vestuário', 'Roupas e acessórios de moda.');
+INSERT INTO public.category (name, description) VALUES
+    ('Cosméticos', 'Produtos de beleza e cuidados pessoais.'),
+    ('Tecnologia', 'Eletrônicos e acessórios.'),
+    ('Vestuário', 'Roupas e acessórios de moda.');
 
 INSERT INTO public.product (id, name, description, price, bar_code, stock) VALUES
     ('10000000-0000-0000-0000-000000000001', 'Shampoo Revitalizante', 'Linha premium para cabelos danificados.', 39.90, '789100000001', 150),

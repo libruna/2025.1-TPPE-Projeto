@@ -23,7 +23,7 @@ spring:
 
 security:
   jwt:
-    issuer: smart-manager-api
+    issuer: smart-manage-api
     expires-in: 1800 # 30 minutes
 
 jwt:
