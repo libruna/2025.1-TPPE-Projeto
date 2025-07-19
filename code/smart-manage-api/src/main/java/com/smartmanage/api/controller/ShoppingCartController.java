@@ -5,7 +5,11 @@ import com.smartmanage.api.dto.response.ShoppingCartResponseDto;
 import com.smartmanage.api.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
@@ -24,8 +28,10 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/clients/{clientId}")
-    public ResponseEntity<ShoppingCartResponseDto> getClientShoppingCart(@PathVariable UUID clientId,
-                                                                         @RequestParam(required = false) Integer discountPercentage) {
-        return ResponseEntity.ok().body(shoppingCartService.getShoppingCartByClientId(clientId, discountPercentage));
+    public ResponseEntity<ShoppingCartResponseDto> getClientShoppingCart(
+            @PathVariable UUID clientId,
+            @RequestParam(required = false) Integer discountPercentage) {
+        return ResponseEntity.ok().body(
+                shoppingCartService.getShoppingCartByClientId(clientId, discountPercentage));
     }
 }

@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtEncoder jwtEncoder;
 
     @Value("${security.jwt.expires-in}")
-    private long DEFAULT_TOKEN_TTL_SECONDS;
+    private long defaultTokenTtlSeconds;
 
     public AuthServiceImpl(EmployeeRepository employeeRepository, BCryptPasswordEncoder passwordEncoder, JwtEncoder jwtEncoder) {
         this.employeeRepository = employeeRepository;
@@ -44,14 +44,14 @@ public class AuthServiceImpl implements AuthService {
         Employee employee = employeeOptional.get();
 
         Instant now = Instant.now();
-        long expiresIn = DEFAULT_TOKEN_TTL_SECONDS;
+        long expiresIn = defaultTokenTtlSeconds;
 
         String scope = employee.getRole().getName();
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("smart-manage-api")
                 .subject(employee.getId().toString())
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(DEFAULT_TOKEN_TTL_SECONDS))
+                .expiresAt(now.plusSeconds(defaultTokenTtlSeconds))
                 .claim("scope", scope)
                 .build();
 

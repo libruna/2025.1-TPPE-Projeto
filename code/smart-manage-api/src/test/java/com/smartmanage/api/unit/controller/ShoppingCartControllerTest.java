@@ -90,7 +90,7 @@ public class ShoppingCartControllerTest {
                 ItemResponseDto.builder()
                         .productId(productId)
                         .number(2)
-                        .totalPrice(100L)
+                        .totalPrice(new BigDecimal("200.00"))
                         .build()
         ));
 

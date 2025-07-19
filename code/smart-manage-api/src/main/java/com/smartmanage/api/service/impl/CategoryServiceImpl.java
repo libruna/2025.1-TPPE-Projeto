@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryResponseDto> getCategories() {
-        return mapper.map(categoryRepository.findAll(), new TypeToken<List<CategoryResponseDto>>() {}.getType());
+        return mapper.map(categoryRepository.findAll(), new TypeToken<List<CategoryResponseDto>>() { }.getType());
     }
 
     @Override
