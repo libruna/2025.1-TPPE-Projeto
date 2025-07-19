@@ -1,9 +1,12 @@
 package com.smartmanage.api.model.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "role")
 public class Role {

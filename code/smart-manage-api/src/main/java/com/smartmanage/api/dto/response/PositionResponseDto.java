@@ -6,19 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class EmployeeResponseDto {
+public class PositionResponseDto {
 
-    private UUID id;
+    private Long id;
     private String name;
-    private String document;
-    private String email;
-    private String phoneNumber;
-    private PositionResponseDto position;
 }
