@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Data
@@ -18,6 +19,5 @@ public class ItemResponseDto {
     private UUID id;
     private UUID productId;
     private Integer number;
-    private Integer discountPercentage;
-    private Long totalPrice;
+    private BigDecimal totalPrice;
 }

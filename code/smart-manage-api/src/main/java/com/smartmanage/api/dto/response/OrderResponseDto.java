@@ -21,7 +21,8 @@ public class OrderResponseDto {
     private UUID id;
     private OrderStatusEnum status;
     private BigDecimal totalPrice;
-    private Long discount;
+    private BigDecimal finalPrice;
+    private BigDecimal discount;
     private String createdAt;
     private String updatedAt;
     private List<ItemResponseDto> items;

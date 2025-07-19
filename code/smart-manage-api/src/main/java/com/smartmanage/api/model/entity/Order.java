@@ -22,11 +22,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "discount")
+    private BigDecimal discount;
+
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
 
-    @Column(name = "discount_percentage")
-    private Integer discountPercentage;
+    @Column(name = "final_price", nullable = false)
+    private BigDecimal finalPrice;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)

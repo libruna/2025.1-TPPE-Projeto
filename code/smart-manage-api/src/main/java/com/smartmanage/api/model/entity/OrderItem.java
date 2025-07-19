@@ -3,6 +3,7 @@ package com.smartmanage.api.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -19,6 +20,9 @@ public class OrderItem {
 
     @Column(name = "number", nullable = false)
     private Integer number;
+
+    @Column(name = "total_price", nullable = false)
+    private BigDecimal totalPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)

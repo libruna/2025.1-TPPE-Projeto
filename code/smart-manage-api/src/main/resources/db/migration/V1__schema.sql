@@ -90,8 +90,9 @@ CREATE TABLE public.order (
     employee_id UUID NOT NULL,
     status_id INT NOT NULL,
     payment_id UUID NOT NULL,
+    discount NUMERIC(10, 2),
     total_price NUMERIC(10, 2) NOT NULL,
-    discount_percentage INT DEFAULT 0,
+    final_price NUMERIC(10, 2) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP,
     deleted_at TIMESTAMP,
@@ -107,6 +108,7 @@ CREATE TABLE public.order_item (
     order_id UUID NOT NULL,
     product_id UUID NOT NULL,
     number INT NOT NULL,
+    total_price NUMERIC(10, 2) NOT NULL,
     FOREIGN KEY (product_id) REFERENCES public.product(id),
     FOREIGN KEY(order_id) REFERENCES public.order(id)
 );

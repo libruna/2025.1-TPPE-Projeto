@@ -8,8 +8,6 @@ import java.util.List;
 @Data
 public class OrderRequestDto {
 
-    private Integer discountPercentage;
-
     @NotNull(message = "A forma de pagamento é obrigatória.")
     private PaymentMethodRequestDto paymentMethod;
 

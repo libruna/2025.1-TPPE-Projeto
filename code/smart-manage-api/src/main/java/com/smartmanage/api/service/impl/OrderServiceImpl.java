@@ -69,16 +69,15 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = buildOrderItem(itemRequestDto, order);
             order.getItems().add(orderItem);
 
-            totalPrice = totalPrice.add(orderItem.getProduct().getPrice().multiply(BigDecimal.valueOf(itemRequestDto.getNumber())));
+            totalPrice = totalPrice.add(orderItem.getTotalPrice());
         }
 
-        if (orderRequestDto.getDiscountPercentage() != null && orderRequestDto.getDiscountPercentage() > 0) {
-            BigDecimal percentage = BigDecimal.valueOf(orderRequestDto.getDiscountPercentage())
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        order.setTotalPrice(totalPrice);
+        order.setFinalPrice(totalPrice);
 
-            order.setTotalPrice(totalPrice.subtract(totalPrice.multiply(percentage)));
-        } else {
-            order.setTotalPrice(totalPrice);
+        if (client.getAssociateMember()) {
+            order.setDiscount(totalPrice.multiply(BigDecimal.valueOf(0.15)).setScale(2, RoundingMode.HALF_UP));
+            order.setFinalPrice(totalPrice.subtract(order.getDiscount()));
         }
 
         return OrderResponseDto.builder()
@@ -95,10 +94,16 @@ public class OrderServiceImpl implements OrderService {
         Product product = productRepository.findById(itemRequestDto.getProductId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado."));
 
+        if (product.getStock() < itemRequestDto.getNumber()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantidade solicitada excede o estoque do produto.");
+        }
+
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setOrder(order);
         orderItem.setNumber(itemRequestDto.getNumber());
+        orderItem.setTotalPrice(product.getPrice().multiply(BigDecimal.valueOf(itemRequestDto.getNumber())));
+
         return orderItem;
     }
 }
